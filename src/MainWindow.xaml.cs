@@ -1,15 +1,16 @@
 ﻿/* PROJECT: Kompressor (https://github.com/aprettycoolprogram/Kompressor)
  *    FILE: Kompressor.MainWindow.xaml.cs
- * UPDATED: 12-17-2020-4:59 PM
+ * UPDATED: 12-18-2020-12:34 PM
  * LICENSE: Apache v2 (https://apache.org/licenses/LICENSE-2.0)
  *          Copyright 2020 A Pretty Cool Program All rights reserved
  */
 
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using Ookii.Dialogs.Wpf;
 using Du;
+using Ookii.Dialogs.Wpf;
 
 namespace Kompressor
 {
@@ -19,24 +20,38 @@ namespace Kompressor
         {
             InitializeComponent();
 
-            SetKompressButton();
-            SetupZip();
-            SetupSevenZip();
-
+            InitLogo();
+            InitKompressButton();
         }
 
-        private void SetupZip()
+        /// <summary>
+        /// Initialize the Kompressor logo.
+        /// </summary>
+        private void InitLogo()
         {
-            ZipCompressionMethodChosen();
+            imgKompressorLogo.Source = DuBitmap.FromUri(Assembly.GetExecutingAssembly(), @"/Resources/Asset/Image/Logo/kompressor-logo.png");
         }
 
-        private void SetupSevenZip()
+        /// <summary>
+        /// Initialize the compression level.
+        /// </summary>
+        private void InitCompressionLevel()
         {
-            rdoSevenZipCompression.Tag = SevenZip.GetExecutablePath(); //= null
-            rdoSevenZipCompression.IsEnabled = rdoSevenZipCompression.Tag != null;
+            rdoNormalCompression.IsChecked = true;
         }
 
-        private void ChooseFolder()
+        /// <summary>
+        /// Initialize the Kompress button.
+        /// </summary>
+        public void InitKompressButton()
+        {
+            btnKompress.IsEnabled = Directory.Exists(tbxFolderPath.Text);
+        }
+
+        /// <summary>
+        /// User pressed the folder button.
+        /// </summary>
+        private void ChooseFolderPath()
         {
             var ookiiDialog = new VistaFolderBrowserDialog();
 
@@ -46,16 +61,24 @@ namespace Kompressor
             }
         }
 
-        public void SetKompressButton()
+        /// <summary>
+        /// User pressed the Kompress button.
+        /// </summary>
+        private void KompressButtonClicked()
         {
-            btnKompress.IsEnabled = Directory.Exists(tbxFolderPath.Text);
+            var compressionLevel = GetCompressionLevel();
+            SevenZip.Create(tbxFolderPath.Text, compressionLevel, lblProgress, (bool)cbxDeleteOriginal.IsChecked);
         }
 
+        /// <summary>
+        /// Determine the compression level.
+        /// </summary>
+        /// <returns></returns>
         private string GetCompressionLevel()
         {
             string compressionLevel;
 
-            if((bool)rdoNoCompression.IsChecked)
+            if((bool)rdoStoreCompression.IsChecked)
             {
                 compressionLevel = "noCompression";
             }
@@ -71,7 +94,7 @@ namespace Kompressor
             {
                 compressionLevel = "normalCompression";
             }
-            else if((bool)rdoMaximumOptimalCompression.IsChecked)
+            else if((bool)rdoMaximumCompression.IsChecked)
             {
                 compressionLevel = "maximumOptimalCompression";
             }
@@ -87,55 +110,11 @@ namespace Kompressor
             return compressionLevel;
         }
 
-        private void KompressButtonClicked()
-        {
-            if((bool)rdoZipCompression.IsChecked)
-            {
-                var compressionLevel = GetCompressionLevel();
-                Zip.Create(tbxFolderPath.Text, compressionLevel);
-            }
-            else if((bool)rdoSevenZipCompression.IsChecked)
-            {
-                var compressionLevel = GetCompressionLevel();
-                SevenZip.Create(tbxFolderPath.Text, compressionLevel);
-            }
 
-            MessageBoxResult compressionCompleteMsg = MessageBox.Show("All folders have been compressed", "Compression complete!");
-        }
-
-        private void ZipCompressionMethodChosen()
-        {
-            rdoZipCompression.IsChecked = true;
-
-            rdoNoCompression.IsEnabled = true;
-            rdoFastestCompression.IsEnabled = true;
-            rdoFastCompression.IsEnabled = false;
-            rdoNormalCompression.IsEnabled = false;
-            rdoMaximumOptimalCompression.IsEnabled = true;
-            rdoUltraCompression.IsEnabled = false;
-
-            rdoMaximumOptimalCompression.IsChecked = true;
-        }
-
-        private void SevenZipCompressionMethodChosen()
-        {
-            rdoSevenZipCompression.IsChecked = true;
-
-            rdoNoCompression.IsEnabled = true;
-            rdoFastestCompression.IsEnabled = true;
-            rdoFastCompression.IsEnabled = true;
-            rdoNormalCompression.IsEnabled = true;
-            rdoMaximumOptimalCompression.IsEnabled = true;
-            rdoUltraCompression.IsEnabled = true;
-
-            rdoNormalCompression.IsChecked = true;
-        }
 
         // EVENT HANDLERS
-        private void rdoZipCompression_Checked(object sender, RoutedEventArgs e) => ZipCompressionMethodChosen();
-        private void rdoSevenZipCompression_Checked(object sender, RoutedEventArgs e) => SevenZipCompressionMethodChosen();
-        private void btnChooseFolder_Click(object sender, RoutedEventArgs e) => ChooseFolder();
+        private void btnChooseFolder_Click(object sender, RoutedEventArgs e) => ChooseFolderPath();
         private void btnKompress_Click(object sender, RoutedEventArgs e) => KompressButtonClicked();
-        private void tbxFolderPath_TextChanged(object sender, TextChangedEventArgs e) => SetKompressButton();
+        private void tbxFolderPath_TextChanged(object sender, TextChangedEventArgs e) => InitKompressButton();
     }
 }

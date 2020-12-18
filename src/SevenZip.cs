@@ -1,28 +1,42 @@
 ﻿/* PROJECT: Kompressor (https://github.com/aprettycoolprogram/Kompressor)
  *    FILE: Kompressor.SevenZip.cs
- * UPDATED: 12-17-2020-4:59 PM
+ * UPDATED: 12-18-2020-12:35 PM
  * LICENSE: Apache v2 (https://apache.org/licenses/LICENSE-2.0)
  *          Copyright 2020 A Pretty Cool Program All rights reserved
  */
 
 using System;
-using System.IO;
+using System.Windows.Controls;
+using System.Windows.Threading;
 using Du;
 
 namespace Kompressor
 {
     public class SevenZip
     {
-        public static string GetExecutablePath()
+
+        private static readonly Action EmptyDelegate = delegate { };
+
+        /// <summary>
+        /// Refresh the progress label.
+        /// </summary>
+        /// <param name="label"></param>
+        public static void Refresh(Label label)
         {
-            return Get64BitExecutablePath() == null
-                ? Get32BitExecutablePath()
-                : Get64BitExecutablePath();
+            label.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);
         }
 
-        public static void Create(string folderPath, string compressLevel)
+        /// <summary>
+        /// Create an archive.
+        /// </summary>
+        /// <param name="folderPath">Path to the folder to archive.</param>
+        /// <param name="compressLevel">The compression level.</param>
+        /// <param name="lblProgress">The progress indicator</param>
+        /// <param name="deleteOriginalFolder">Determines if the original folder should be deleted after archiving.</param>
+        public static void Create(string folderPath, string compressLevel, Label lblProgress, bool deleteOriginalFolder)
         {
-            var subDirs= DuDirectory.GetSubDirectoryNames(folderPath);
+            var subDirectories= DuDirectory.GetSubDirectoryNames(folderPath);
+
             var compressionLevel = compressLevel switch
             {
                 "fastestCompression"        => "-mx1",
@@ -33,31 +47,34 @@ namespace Kompressor
                 _                           => "-mx0",
             };
 
-            foreach(var subDir in subDirs)
+            var sevenZipExecutablePath = DuOperatingSystem.MSWindows.Is64Bit()
+                ? @"./Resources/Bin/7Zip/64bit/7za.exe"
+                : @"./Resources/Bin/7Zip/32bit/7za.exe";
+
+            var numberOfSubDirectories = subDirectories.Count;
+            var currSubDirectoryCount = 1;
+
+            foreach(var subDirectory in subDirectories)
             {
-                var s = $"\"{folderPath}{subDir}\\*\"";
-                var d = $"\"{folderPath}{subDir}.7z\"";
+                var sourceDirectory = $"{folderPath}{subDirectory}\\";
+                var archiveFilePath = $"{folderPath}{subDirectory}.7z";
 
-                DuCompression.SevenZip.CreateFromDirectory(s, d, compressionLevel);
+                var command = $"a -t7z {compressionLevel} \"{archiveFilePath}\" \"{sourceDirectory}*\"";
+
+                lblProgress.Content = $"PROGRESS: File {currSubDirectoryCount} of {numberOfSubDirectories}: {subDirectory}";
+                Refresh(lblProgress);
+
+                DuCompression.SevenZip.CreateFromDirectory(sevenZipExecutablePath, archiveFilePath, command);
+
+                if(deleteOriginalFolder)
+                {
+                    DuDirectory.Delete(sourceDirectory);
+                }
+
+                currSubDirectoryCount++;
             }
-        }
 
-        private static string Get32BitExecutablePath()
-        {
-            var sevenZip32BitPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}\\7-Zip\\7z.exe";
-
-            return File.Exists(sevenZip32BitPath)
-                ? sevenZip32BitPath
-                : null;
-        }
-
-        private static string Get64BitExecutablePath()
-        {
-            var sevenZip64BitPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\\7-Zip\\7z.exe";
-
-            return File.Exists(sevenZip64BitPath)
-                ? sevenZip64BitPath
-                : null;
+            lblProgress.Content = $"PROGRESS: COMPLETE!";
         }
     }
 }
