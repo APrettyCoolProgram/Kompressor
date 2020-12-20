@@ -4,13 +4,14 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyVersion>0.5.20354.2001</AssemblyVersion>
-    <FileVersion>0.5.20354.2001</FileVersion>
+    <AssemblyVersion>0.10.20355.2221</AssemblyVersion>
+    <FileVersion>0.10.20355.2221</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Resources\Asset\Image\Control\choose-folder-512x512.png" />
-    <None Remove="Resources\Asset\Image\Logo\kompressor-logo.png" />
+    <None Remove="Resources\Asset\Image\Logo\kompress-button-enabled-75x25.png" />
+    <None Remove="Resources\Asset\Image\Logo\kompressor-logo-400x100.png" />
     <None Remove="Resources\Bin\7zip\32bit\7za.exe" />
     <None Remove="Resources\Bin\7zip\64bit\7za.exe" />
   </ItemGroup>
@@ -33,12 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Doc\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Resources\Asset\Image\Control\choose-folder-512x512.png" />
-    <Resource Include="Resources\Asset\Image\Logo\kompressor-logo.png" />
+    <Resource Include="Resources\Asset\Image\Logo\kompress-button-enabled-75x25.png" />
+    <Resource Include="Resources\Asset\Image\Logo\kompressor-logo-400x100.png" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿/* PROJECT: Kompressor (https://github.com/aprettycoolprogram/Kompressor)
  *    FILE: Kompressor.SevenZip.cs
- * UPDATED: 12-18-2020-12:35 PM
+ * UPDATED: 12-20-2020-3:07 PM
  * LICENSE: Apache v2 (https://apache.org/licenses/LICENSE-2.0)
  *          Copyright 2020 A Pretty Cool Program All rights reserved
  */
@@ -20,7 +20,7 @@ namespace Kompressor
         /// <summary>
         /// Refresh the progress label.
         /// </summary>
-        /// <param name="label"></param>
+        /// <param name="label">The progress label.</param>
         public static void Refresh(Label label)
         {
             label.Dispatcher.Invoke(DispatcherPriority.Render, EmptyDelegate);

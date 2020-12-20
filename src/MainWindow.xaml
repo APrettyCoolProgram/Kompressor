@@ -1,7 +1,7 @@
 ﻿<!--
     PROJECT: Kompressor (https://github.com/aprettycoolprogram/Kompressor)
     FILE: MainWindow.xaml
-    UPDATED: 12-18-2020-12:35 PM
+    UPDATED: 12-20-2020-3:07 PM
     LICENSE: Apache v2 (https://apache.org/licenses/LICENSE-2.0)
     Copyright 2020 A Pretty Cool Program All rights reserved
 -->
@@ -14,24 +14,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="Kompressor"
         Width="450"
-        Height="450"
+        Height="500"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
             <RowDefinition Height="76" />
             <RowDefinition Height="76" />
-            <RowDefinition Height="76" />
-            <RowDefinition Height="76" />
+            <RowDefinition Height="125" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border x:Name="brdKompressorLogo"
                 Grid.Row="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
-            <Image x:Name="imgKompressorLogo"
-                   Margin="20,12,20,12" />
+            <Image x:Name="imgKompressorLogo" />
         </Border>
         <Border x:Name="brdCompressionLevel"
                 Grid.Row="1"
@@ -106,11 +105,11 @@
                          Text=""
                          TextChanged="tbxFolderPath_TextChanged"
                          TextWrapping="Wrap" />
-                <Button x:Name="btnChooseFolder"
+                <Button x:Name="btnChooseFolderPath"
                         Width="24"
                         Height="24"
                         BorderThickness="0"
-                        Click="btnChooseFolder_Click"
+                        Click="btnChooseFolderPath_Click"
                         Content="">
                     <Button.Background>
                         <ImageBrush ImageSource="/Resources/Asset/Image/Control/choose-folder-512x512.png"
@@ -121,7 +120,8 @@
         </Border>
         <Border x:Name="brdOptions"
                 Grid.Row="3"
-                Margin="15,12,15,12"
+                Height="100"
+                Margin="5,12,5,12"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 BorderBrush="Black"
@@ -134,7 +134,7 @@
                        HorizontalAlignment="Center"
                        HorizontalContentAlignment="Left"
                        VerticalContentAlignment="Center"
-                       Content="Option"
+                       Content="Options"
                        FontWeight="Bold" />
                 <CheckBox x:Name="cbxDeleteOriginal"
                           Margin="5,0"
@@ -150,21 +150,25 @@
                 VerticalAlignment="Center"
                 BorderBrush="Black"
                 BorderThickness="0">
-            <StackPanel>
+            <WrapPanel>
                 <Button x:Name="btnKompress"
-                        Width="70"
+                        Width="75"
                         Height="25"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
                         Click="btnKompress_Click"
-                        Content="Kompress" />
+                        Content="" BorderBrush="DarkGray" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Resources/Asset/Image/Logo/kompress-button-enabled-75x25.png"/>
+                    </Button.Background>
+                </Button>
                 <Label x:Name="lblProgress"
-                       Width="350"
+                       Width="300"
                        Height="26"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top"
                        Content="PROGRESS: Not running." />
-            </StackPanel>
+            </WrapPanel>
         </Border>
     </Grid>
 </Window>

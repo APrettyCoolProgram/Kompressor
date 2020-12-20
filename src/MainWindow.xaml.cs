@@ -1,6 +1,6 @@
 ﻿/* PROJECT: Kompressor (https://github.com/aprettycoolprogram/Kompressor)
  *    FILE: Kompressor.MainWindow.xaml.cs
- * UPDATED: 12-18-2020-12:34 PM
+ * UPDATED: 12-20-2020-3:07 PM
  * LICENSE: Apache v2 (https://apache.org/licenses/LICENSE-2.0)
  *          Copyright 2020 A Pretty Cool Program All rights reserved
  */
@@ -20,30 +20,40 @@ namespace Kompressor
         {
             InitializeComponent();
 
-            InitLogo();
-            InitKompressButton();
+            InitControls();
+            ModifyKompressButtonStates();
         }
 
         /// <summary>
-        /// Initialize the Kompressor logo.
+        /// Initialize the MainWindow controls.
         /// </summary>
-        private void InitLogo()
+        private void InitControls()
         {
-            imgKompressorLogo.Source = DuBitmap.FromUri(Assembly.GetExecutingAssembly(), @"/Resources/Asset/Image/Logo/kompressor-logo.png");
-        }
+            /*  Kompressor logo.
+             */
+            imgKompressorLogo.Source = DuBitmap.FromUri(Assembly.GetExecutingAssembly(), @"/Resources/Asset/Image/Logo/kompressor-logo-400x100.png");
 
-        /// <summary>
-        /// Initialize the compression level.
-        /// </summary>
-        private void InitCompressionLevel()
-        {
+            /*  Kompressor starts with "normal" compression as default.
+             */
             rdoNormalCompression.IsChecked = true;
+
+            /*  Eventually btnChooseFolderPath will have a background image, which will be set here.
+             */
+            //TODO: Move btnChooseFolderPath background image initilization out of MainWindow.xaml.
+
+            /*  The Kompress button starts out disabled.
+             */
+            //TODO: Move btnKompress background image initilization out of MainWindow.xaml.
+            btnKompress.IsEnabled = false;
         }
 
         /// <summary>
-        /// Initialize the Kompress button.
+        /// Modify the Kompress button states.
         /// </summary>
-        public void InitKompressButton()
+        /// <remarks>
+        /// * Enabled/disabled, depending on if the tbxFolderPath is a valid path.
+        /// </remarks>
+        public void ModifyKompressButtonStates()
         {
             btnKompress.IsEnabled = Directory.Exists(tbxFolderPath.Text);
         }
@@ -51,13 +61,16 @@ namespace Kompressor
         /// <summary>
         /// User pressed the folder button.
         /// </summary>
+        /// <remarks>
+        /// * Uses OokiiDialogsWPF (https://github.com/augustoproiete/ookii-dialogs-wpf)
+        /// </remarks>
         private void ChooseFolderPath()
         {
-            var ookiiDialog = new VistaFolderBrowserDialog();
+            var chooseFolderDialog = new VistaFolderBrowserDialog();
 
-            if(ookiiDialog.ShowDialog() == true)
+            if(chooseFolderDialog.ShowDialog() == true)
             {
-                tbxFolderPath.Text = $"{ookiiDialog.SelectedPath}\\";
+                tbxFolderPath.Text = $"{chooseFolderDialog.SelectedPath}\\";
             }
         }
 
@@ -110,11 +123,9 @@ namespace Kompressor
             return compressionLevel;
         }
 
-
-
         // EVENT HANDLERS
-        private void btnChooseFolder_Click(object sender, RoutedEventArgs e) => ChooseFolderPath();
+        private void btnChooseFolderPath_Click(object sender, RoutedEventArgs e) => ChooseFolderPath();
+        private void tbxFolderPath_TextChanged(object sender, TextChangedEventArgs e) => ModifyKompressButtonStates();
         private void btnKompress_Click(object sender, RoutedEventArgs e) => KompressButtonClicked();
-        private void tbxFolderPath_TextChanged(object sender, TextChangedEventArgs e) => InitKompressButton();
     }
 }
