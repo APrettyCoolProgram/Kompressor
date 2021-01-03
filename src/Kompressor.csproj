@@ -4,9 +4,26 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <AssemblyVersion>0.3.20352.2234</AssemblyVersion>
-    <FileVersion>0.3.20352.2234</FileVersion>
+    <AssemblyVersion>0.10.20356.0113</AssemblyVersion>
+    <FileVersion>0.10.20356.0113</FileVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Asset\Image\Control\choose-folder-512x512.png" />
+    <None Remove="Resources\Asset\Image\Logo\kompress-button-enabled-75x25.png" />
+    <None Remove="Resources\Asset\Image\Logo\kompressor-logo-400x100.png" />
+    <None Remove="Resources\Bin\7zip\32bit\7za.exe" />
+    <None Remove="Resources\Bin\7zip\64bit\7za.exe" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Bin\7zip\32bit\7za.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Bin\7zip\64bit\7za.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Ookii.Dialogs.Wpf" Version="3.1.0" />
@@ -14,6 +31,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\du\src\Du.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Asset\Image\Control\choose-folder-512x512.png" />
+    <Resource Include="Resources\Asset\Image\Logo\kompress-button-enabled-75x25.png" />
+    <Resource Include="Resources\Asset\Image\Logo\kompressor-logo-400x100.png" />
   </ItemGroup>
 
 </Project>

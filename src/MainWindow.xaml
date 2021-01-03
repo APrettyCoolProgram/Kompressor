@@ -1,7 +1,7 @@
 ﻿<!--
     PROJECT: Kompressor (https://github.com/aprettycoolprogram/Kompressor)
     FILE: MainWindow.xaml
-    UPDATED: 12-17-2020-5:00 PM
+    UPDATED: 12-20-2020-3:07 PM
     LICENSE: Apache v2 (https://apache.org/licenses/LICENSE-2.0)
     Copyright 2020 A Pretty Cool Program All rights reserved
 -->
@@ -13,134 +13,162 @@
         xmlns:local="clr-namespace:Kompressor"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="Kompressor"
-        Width="408"
-        Height="525"
+        Width="450"
+        Height="500"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Grid>
-        <Border x:Name="brdCompressionMethodOptions"
-                Width="175"
-                Margin="20,75,0,161"
-                HorizontalAlignment="Left"
-                BorderBrush="Black"
-                BorderThickness="1">
-            <WrapPanel x:Name="wpnlCompressionMethodOptions"
-                       Margin="10">
-                <Label x:Name="lblCompressionMethodOptions"
-                       Width="154"
-                       Height="25"
-                       HorizontalAlignment="Center"
-                       HorizontalContentAlignment="Center"
-                       VerticalContentAlignment="Center"
-                       Content="Compression Method"
-                       FontWeight="Bold" />
-                <RadioButton x:Name="rdoZipCompression"
-                             Width="100"
-                             Margin="10,0"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             Checked="rdoZipCompression_Checked"
-                             Content="Zip" />
-                <RadioButton x:Name="rdoSevenZipCompression"
-                             Width="100"
-                             Margin="10,5"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             Checked="rdoSevenZipCompression_Checked"
-                             Content="7-Zip" />
-            </WrapPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="76" />
+            <RowDefinition Height="76" />
+            <RowDefinition Height="125" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border x:Name="brdKompressorLogo"
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Image x:Name="imgKompressorLogo" />
         </Border>
-        <Border x:Name="brdCompressionLevelOptions"
-                Width="175"
-                Margin="200,75,0,161"
-                HorizontalAlignment="Left"
+        <Border x:Name="brdCompressionLevel"
+                Grid.Row="1"
+                Margin="15,12,15,12"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 BorderBrush="Black"
                 BorderThickness="1">
-            <WrapPanel x:Name="wpnlCompressionLevelOptions"
-                       Margin="10">
-                <Label x:Name="lblCompressionLevelOptions"
-                       Width="154"
+            <WrapPanel x:Name="wpnlCompressionLevel"
+                       Margin="5">
+                <Label x:Name="lblCompressionLevel"
+                       Width="350"
                        Height="25"
                        HorizontalAlignment="Center"
-                       HorizontalContentAlignment="Center"
+                       HorizontalContentAlignment="Left"
                        VerticalContentAlignment="Center"
                        Content="Compression Level"
                        FontWeight="Bold" />
-                <RadioButton x:Name="rdoNoCompression"
-                             Width="130"
-                             Margin="10,0"
+                <RadioButton x:Name="rdoStoreCompression"
+                             Width="50"
+                             Margin="5,0"
                              HorizontalAlignment="Left"
                              VerticalAlignment="Top"
-                             Content="No compression" />
+                             Content="Store" />
                 <RadioButton x:Name="rdoFastestCompression"
-                             Width="130"
-                             Margin="10,5"
+                             Width="65"
                              HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
+                             VerticalAlignment="Center"
                              Content="Fastest" />
                 <RadioButton x:Name="rdoFastCompression"
-                             Width="130"
-                             Margin="10,0"
+                             Width="50"
                              HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
+                             VerticalAlignment="Center"
                              Content="Fast" />
                 <RadioButton x:Name="rdoNormalCompression"
-                             Width="130"
-                             Margin="10,5"
+                             Width="75"
                              HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
+                             VerticalAlignment="Center"
                              Content="Normal" />
-                <RadioButton x:Name="rdoMaximumOptimalCompression"
-                             Width="130"
-                             Margin="10,0"
+                <RadioButton x:Name="rdoMaximumCompression"
+                             Width="75"
                              HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             Content="Maximum/Optimal" />
+                             VerticalAlignment="Center"
+                             Content="Maximum" />
                 <RadioButton x:Name="rdoUltraCompression"
-                             Width="130"
-                             Margin="10,5"
+                             Width="50"
                              HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
+                             VerticalAlignment="Center"
                              Content="Ultra" />
             </WrapPanel>
         </Border>
-        <Border x:Name="brdFolderOptions"
-                Width="355"
-                Height="100"
-                Margin="20,315,0,19"
-                HorizontalAlignment="Left"
+        <Border x:Name="brdFolderPath"
+                Grid.Row="2"
+                Margin="15,0,15,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 BorderBrush="Black"
                 BorderThickness="1">
-            <WrapPanel x:Name="wpnlFolderOptions"
-                       Margin="10,9,10,5">
-                <Label x:Name="lblFolderOptions"
-                       Width="333"
+            <WrapPanel x:Name="wpnlFolderPath"
+                       Margin="5">
+                <Label x:Name="lblFolderPath"
+                       Width="350"
                        Height="25"
                        HorizontalAlignment="Center"
-                       HorizontalContentAlignment="Center"
+                       HorizontalContentAlignment="Left"
                        VerticalContentAlignment="Center"
                        Content="Folder"
                        FontWeight="Bold" />
-                <Button x:Name="btnChooseFolder"
-                        Width="80"
-                        Margin="125,5"
-                        Click="btnChooseFolder_Click"
-                        Content="Choose folder" />
                 <TextBox x:Name="tbxFolderPath"
-                         Width="310"
-                         Margin="10,5"
+                         Width="340"
+                         Margin="5,0"
                          Text=""
                          TextChanged="tbxFolderPath_TextChanged"
                          TextWrapping="Wrap" />
+                <Button x:Name="btnChooseFolderPath"
+                        Width="24"
+                        Height="24"
+                        BorderThickness="0"
+                        Click="btnChooseFolderPath_Click"
+                        Content="">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Resources/Asset/Image/Control/choose-folder-512x512.png"
+                                    Stretch="Fill" />
+                    </Button.Background>
+                </Button>
             </WrapPanel>
         </Border>
-        <Button x:Name="btnKompress"
-                Width="70"
-                Margin="162,458,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Click="btnKompress_Click"
-                Content="Kompress" />
+        <Border x:Name="brdOptions"
+                Grid.Row="3"
+                Height="100"
+                Margin="5,12,5,12"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                BorderBrush="Black"
+                BorderThickness="1">
+            <WrapPanel x:Name="wpnlOptions"
+                       Margin="5">
+                <Label x:Name="lblOptions"
+                       Width="375"
+                       Height="25"
+                       HorizontalAlignment="Center"
+                       HorizontalContentAlignment="Left"
+                       VerticalContentAlignment="Center"
+                       Content="Options"
+                       FontWeight="Bold" />
+                <CheckBox x:Name="cbxDeleteOriginal"
+                          Margin="5,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          Content="Delete original folder after archiving" />
+            </WrapPanel>
+        </Border>
+        <Border x:Name="brdKompressButton"
+                Grid.Row="4"
+                Margin="15,12,15,12"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                BorderBrush="Black"
+                BorderThickness="0">
+            <WrapPanel>
+                <Button x:Name="btnKompress"
+                        Width="75"
+                        Height="25"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Click="btnKompress_Click"
+                        Content="" BorderBrush="DarkGray" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Resources/Asset/Image/Logo/kompress-button-enabled-75x25.png"/>
+                    </Button.Background>
+                </Button>
+                <Label x:Name="lblProgress"
+                       Width="300"
+                       Height="26"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Content="PROGRESS: Not running." />
+            </WrapPanel>
+        </Border>
     </Grid>
 </Window>
